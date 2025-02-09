@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { GuestComponent } from './layouts/guest/guest.component';
-import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
-import { UnauthorizedComponent } from './web/other/unauthorized/unauthorized.component';
+import { UnauthorizedComponent } from '@web/other/unauthorized/unauthorized.component';
+import { GuestComponent } from '@layouts/guest/guest.component';
+import { UserLayoutComponent } from '@layouts/user-layout/user-layout.component';
 
 export const routes: Routes = [
     {
