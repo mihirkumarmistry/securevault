@@ -1,37 +1,42 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './layout/layout.component';
-import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './authentication/register/register.component';
-import { NotFoundComponent } from './shared/components/not-found/not-found.component';
-import { DashboardComponent } from './web/dashboard/dashboard.component';
+import { GuestComponent } from './layouts/guest/guest.component';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { UnauthorizedComponent } from './web/other/unauthorized/unauthorized.component';
 
 export const routes: Routes = [
     {
-        path: '',
-        component: LayoutComponent,
-        children: [
-            {
-                path: '',
-                redirectTo: '/dashboard',
-                pathMatch: 'full'
-            },
-            {
-                path: 'dashboard',
-                component: DashboardComponent 
-            },
+      path: '',
+      component: UserLayoutComponent,
+      children: [
+        {
+          path: '',
+          redirectTo: '/dashboard',
+          pathMatch: 'full'
+        },
 
-        ]
+        // general
+        {
+          path: 'dashboard',
+          loadComponent: () => import('./web/dashboard/dashboard.component').then((c) => c.DefaultComponent)
+        },
+        {
+          path: 'sample-page',
+          loadComponent: () => import('./web/other/sample-page/sample-page.component')
+        },
+      ]
     },
     {
-        path: 'login',
-        component: LoginComponent 
+      path: '',
+      component: GuestComponent,
+      children: [
+        {
+          path: 'login',
+          loadComponent: () => import('./authentication/login/login.component')
+        }
+      ]
     },
     {
-        path: 'register',
-        component: RegisterComponent 
-    },
-    {
-        path: '**',
-        component: NotFoundComponent
+      path: 'unauthorized',
+      component: UnauthorizedComponent
     }
-];
+  ];

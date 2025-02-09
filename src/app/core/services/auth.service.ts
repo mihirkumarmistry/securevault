@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ApiResponse, ApiStatus } from '../model/api.model';
-import { Auth, AuthResp } from '../model/auth.model';
-import { ApiService } from '../../shared/services/api.service';
+import { Auth, AuthResp } from '../../model/auth.model';
+import { ApiService } from '../../service/api.service';
 
 @Injectable({
   providedIn: 'root',

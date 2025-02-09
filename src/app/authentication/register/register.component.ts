@@ -1,11 +1,28 @@
+// angular import
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [],
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
-
+export default class RegisterComponent {
+  // public method
+  SignUpOptions = [
+    {
+      image: 'assets/images/authentication/google.svg',
+      name: 'Google'
+    },
+    {
+      image: 'assets/images/authentication/twitter.svg',
+      name: 'Twitter'
+    },
+    {
+      image: 'assets/images/authentication/facebook.svg',
+      name: 'Facebook'
+    }
+  ];
 }
