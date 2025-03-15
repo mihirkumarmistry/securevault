@@ -11,18 +11,22 @@ import { NavGroupComponent } from './nav-group/nav-group.component';
 import { IconService } from '@ant-design/icons-angular';
 import {
   AntDesignOutline,
+  AuditOutline,
   BgColorsOutline,
   CalendarOutline,
   ChromeOutline,
+  CloudUploadOutline,
   CreditCardOutline,
   DashboardOutline,
   DollarOutline,
   FontSizeOutline,
+  GlobalOutline,
   LoginOutline,
   PlusCircleOutline,
   PlusOutline,
   ProfileOutline,
   QuestionOutline,
+  ShareAltOutline,
 } from '@ant-design/icons-angular/icons';
 import { environment } from '../../../../../environments/environment.prod';
 import { SystemUserType } from '../../../../core/enums/system-user-type.enum';
@@ -71,6 +75,10 @@ export class NavContentComponent implements OnInit, AfterViewInit {
         CalendarOutline,
         PlusCircleOutline,
         PlusOutline,
+        GlobalOutline,
+        CloudUploadOutline,
+        ShareAltOutline,
+        AuditOutline
       ]
     );
     this.navigations = NavigationItems;

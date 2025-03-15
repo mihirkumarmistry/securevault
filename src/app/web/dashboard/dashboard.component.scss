@@ -1,8 +1,31 @@
-.card {
+.card { 
   .card-body.dashboard-card {
     padding: 18px;
     padding-bottom: 20px;
   }
+}
+
+.card-border {
+  ::ng-deep .card {
+    border: 2px solid #ae83ff;
+    border-radius: 8px;
+  }
+}
+
+.card-num-primary {
+  padding: 1px 0px 1px 2px;
+  border: 1px solid #6610f2;
+  background: #efe7fe;
+  border-radius: 5px;
+  margin-right: 2px;
+}
+
+.card-num-danger {
+  padding: 1px 0px 1px 2px;
+  border: 1px solid #ff4d4f;
+  background: #ffdddd;
+  border-radius: 5px;
+  margin-right: 2px;
 }
 
 .user-group {
@@ -28,4 +51,11 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
+}
+
+.card-icon {
+  display: flex;
+  justify-content: center;
+  padding-top: 18px;
+  padding-bottom: 18px;
 }

@@ -11,7 +11,7 @@ export enum SystemUserType
 {
   User = "USER",
   Admin = "ADMIN",
-  Master = "MASTER"
+  Master = "MANAGER"
 }
 
 export const routes: Routes = [
@@ -24,6 +24,7 @@ export const routes: Routes = [
           redirectTo: `/${appRoutes.Dashboard}`,
           pathMatch: 'full'
         },
+
         // general
         {
           path: appRoutes.Dashboard,
@@ -31,6 +32,40 @@ export const routes: Routes = [
           data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
           loadComponent: () => import('./web/dashboard/dashboard.component').then((c) => c.DefaultComponent)
         },
+        {
+          path: appRoutes.Broadcast,
+          canActivate: [AuthGuard],
+          data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
+          loadComponent: () => import('./web/broadcast/broadcast.component').then((c) => c.BroadcastComponent)
+        },
+        {
+          path: appRoutes.Files,
+          canActivate: [AuthGuard],
+          data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
+          loadComponent: () => import('./web/files/files.component').then((c) => c.FilesComponent)
+        },
+        {
+          path: appRoutes.SharedWithMe,
+          canActivate: [AuthGuard],
+          data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
+          loadComponent: () => import('./web/shared-with-me/shared-with-me.component').then((c) => c.SharedWithMeComponent)
+        },
+        
+        // admin
+        {
+          path: appRoutes.User,
+          canActivate: [AuthGuard],
+          data: { allowedUserTypes: [SystemUserType.Admin, SystemUserType.Master] },
+          loadComponent: () => import('./web/user/user.component').then((c) => c.UserComponent)
+        },
+        {
+          path: appRoutes.Audit,
+          canActivate: [AuthGuard],
+          data: { allowedUserTypes: [SystemUserType.Admin, SystemUserType.Master] },
+          loadComponent: () => import('./web/audit/audit.component').then((c) => c.AuditComponent)
+        },
+
+        // other
         {
           path: 'sample-page',
           loadComponent: () => import('./web/other/sample-page/sample-page.component')
