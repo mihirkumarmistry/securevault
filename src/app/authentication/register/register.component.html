@@ -14,12 +14,12 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label" for="firstName">First Name*</label>
-                  <input id="firstName" type="text" formControlName="firstName" placeholder="Enter First Name"
+                  <label class="form-label" for="firstname">First Name*</label>
+                  <input id="firstname" type="text" formControlName="firstname" placeholder="Enter First Name"
                     class="form-control" />
                   <div>
-                    @if(registerForm.get('firstName').invalid && registerForm.get('firstName').touched){
-                    @if(registerForm.get('firstName').errors && registerForm.get('firstName').errors['required']){
+                    @if(registerForm.get('firstname').invalid && registerForm.get('firstname').touched){
+                    @if(registerForm.get('firstname').errors && registerForm.get('firstname').errors['required']){
                     <small class="text-danger">First name is required.</small>
                     }
                     }
@@ -28,13 +28,27 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label" for="lastName">Last Name*</label>
-                  <input id="lastName" type="text" formControlName="lastName" placeholder="Enter Last Name"
+                  <label class="form-label" for="lastname">Last Name*</label>
+                  <input id="lastname" type="text" formControlName="lastname" placeholder="Enter Last Name"
                     class="form-control" />
                   <div>
-                    @if(registerForm.get('lastName').invalid && registerForm.get('lastName').touched){
-                    @if(registerForm.get('lastName').errors && registerForm.get('lastName').errors['required']){
+                    @if(registerForm.get('lastname').invalid && registerForm.get('lastname').touched){
+                    @if(registerForm.get('lastname').errors && registerForm.get('lastname').errors['required']){
                     <small class="text-danger">Last name is required.</small>
+                    }
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group mb-3">
+                  <label class="form-label" for="mobile">Mobile Number*</label>
+                  <input id="mobile" type="text" formControlName="mobile" placeholder="Enter Mobile Number"
+                    class="form-control" />
+                  <div>
+                    @if(registerForm.get('mobile').invalid && registerForm.get('mobile').touched){
+                    @if(registerForm.get('mobile').errors && registerForm.get('mobile').errors['required']){
+                    <small class="text-danger">Mobile number is required.</small>
                     }
                     }
                   </div>
@@ -43,7 +57,7 @@
             </div>
             <div class="form-group mb-3">
               <label class="form-label" for="email">Email Address*</label>
-              <input id="email" type="email" formControlName="email" placeholder="Enter your email"
+              <input id="email" type="email" formControlName="email" placeholder="Enter Your Email"
                 class="form-control" />
               <div>
                 @if(registerForm.get('email').invalid && registerForm.get('email').touched){
@@ -78,7 +92,7 @@
               <a href="javascript:" class="text-primary">Privacy Policy</a>
             </p>
             <div class="d-grid mt-3">
-              <button type="button" class="btn btn-primary">Create Account</button>
+              <button type="submit" class="btn btn-primary">Create Account</button>
             </div>
           </form>
         </div>

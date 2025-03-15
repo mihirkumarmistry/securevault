@@ -33,7 +33,6 @@ export const NavigationItems: NavigationItem[] = [
         classes: 'nav-item',
         url: '/dashboard',
         icon: 'dashboard',
-        breadcrumbs: false,
       },
       {
         id: 'sample-page',

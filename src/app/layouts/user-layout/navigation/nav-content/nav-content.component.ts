@@ -26,7 +26,7 @@ import {
 } from '@ant-design/icons-angular/icons';
 import { environment } from '../../../../../environments/environment.prod';
 import { SystemUserType } from '../../../../core/enums/system-user-type.enum';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
 import { SharedModule } from '../../../../shared/shared.module';
 
 @Component({

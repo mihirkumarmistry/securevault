@@ -8,6 +8,7 @@ import { SharedModule } from '@shared/shared.module';
 // icons
 import { IconService } from '@ant-design/icons-angular';
 import { FallOutline, GiftOutline, MessageOutline, RiseOutline, SettingOutline } from '@ant-design/icons-angular/icons';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-default',
@@ -21,7 +22,8 @@ import { FallOutline, GiftOutline, MessageOutline, RiseOutline, SettingOutline }
 })
 export class DefaultComponent {
   // constructor
-  constructor(private iconService: IconService) {
+  constructor(private iconService: IconService, private spinner: NgxSpinnerService) {
     this.iconService.addIcon(...[RiseOutline, FallOutline, SettingOutline, GiftOutline, MessageOutline]);
   }
+
 }

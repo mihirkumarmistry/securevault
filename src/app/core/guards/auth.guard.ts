@@ -1,8 +1,8 @@
 // auth.guard.ts
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
 
     const allowedUserTypes = route.data['allowedUserTypes'] as Array<string>;
 
-    if (allowedUserTypes.includes(userType)) {
+    if (allowedUserTypes.includes(userType) && this.authService.hasToken()) {
       return true;
     }
 

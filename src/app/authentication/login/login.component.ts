@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { OtpComponent } from '@authentication/otp/otp.component';
+import { OtpReq, OtpResp } from '@core/model/auth.model';
 import { AuthService } from '@core/services/auth.service';
-import { Auth } from '@model/auth.model';
+import { ApiErrorService } from '@service/api-error.service';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, FormsModule, ReactiveFormsModule, OtpComponent],
+  imports: [RouterModule, FormsModule, ReactiveFormsModule, OtpComponent, NgxSpinnerComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -16,27 +18,43 @@ export default class LoginComponent implements OnInit {
   protected loginForm: FormGroup;
   public isOtpVerification: boolean = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private spinner: NgxSpinnerService,
+    private apiErrorService: ApiErrorService) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
   protected onSubmit(): void {
     if (this.loginForm.valid) {
-      // Imput sanitization
-      // let formData = this.loginForm.value;
-      // const param: Auth = {
-      //   username: formData.username,
-      //   password: formData.password
-      // }
-      // Call auth process 
-      // On responce toggle to Otp Page
-      //this.authService.login(param);
-      this.toggleOtpVerification();
+      // Input sanitization
+      const value = this.loginForm.value;
+      const param: OtpReq = {
+        email: value.email,
+        password: value.password
+      };
+
+      this.spinner.show();
+
+      // Call Generate Otp
+      this.authService.generateOtp(param).subscribe({
+        next: (resp: OtpResp) => {
+          console.log(resp.message);
+          this.spinner.hide();
+          sessionStorage.setItem('email', param.email);
+          this.toggleOtpVerification();
+        },
+        error: () => {
+          this.spinner.hide();
+          this.apiErrorService.toastMessage('Error', 'Error!', 'Failed to sign-in!');
+        }
+      });
     }
   }
 
