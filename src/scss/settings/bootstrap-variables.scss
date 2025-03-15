@@ -36,7 +36,7 @@ $colors: (
 );
 // scss-docs-end colors-map
 
-$primary: $blue; // change
+$primary: $indigo; // change
 $secondary: $secondary; // change
 $success: $green; // change
 $info: $cyan; // change
@@ -81,6 +81,18 @@ $blues: (
   'blue-700': $blue-700,
   'blue-800': $blue-800,
   'blue-900': $blue-900
+);
+
+$indigos: (
+  'indigo-100': $indigo-100,
+  'indigo-200': $indigo-200,
+  'indigo-300': $indigo-300,
+  'indigo-400': $indigo-400,
+  'indigo-500': $indigo-500,
+  'indigo-600': $indigo-600,
+  'indigo-700': $indigo-700,
+  'indigo-800': $indigo-800,
+  'indigo-900': $indigo-900
 );
 
 // Characters which are escaped by the escape-svg function
