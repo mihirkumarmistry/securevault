@@ -77,7 +77,7 @@ $teal: $teal-500;
 $cyan: $cyan-500;
 $dark: #262626;
 
-$primary-text: $blue-600;
+$primary-text: $indigo-600;
 $secondary-text: $gray-600;
 $success-text: $green-600;
 $info-text: $cyan-700;
@@ -86,7 +86,7 @@ $danger-text: $red-600;
 $light-text: $gray-600;
 $dark-text: $gray-700;
 
-$primary-bg-subtle: $blue-100;
+$primary-bg-subtle: $indigo-100;
 $secondary-bg-subtle: $gray-100;
 $success-bg-subtle: $green-100;
 $info-bg-subtle: $cyan-100;
@@ -95,7 +95,7 @@ $danger-bg-subtle: $red-100;
 $light-bg-subtle: mix($gray-100, $white);
 $dark-bg-subtle: $gray-400;
 
-$primary-border-subtle: $blue-200;
+$primary-border-subtle: $indigo-200;
 $secondary-border-subtle: $gray-200;
 $success-border-subtle: $green-200;
 $info-border-subtle: $cyan-200;
@@ -106,6 +106,6 @@ $dark-border-subtle: $gray-500;
 
 $preset-colors: (
   preset-1: (
-    primary: #1677ff
+    primary: #6610f2
   )
 );
