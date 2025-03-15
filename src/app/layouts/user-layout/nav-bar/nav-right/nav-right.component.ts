@@ -28,7 +28,7 @@ import {
   GithubOutline
 } from '@ant-design/icons-angular/icons';
 import { SharedModule } from '../../../../shared/shared.module';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'app-nav-right',
@@ -43,6 +43,7 @@ export class NavRightComponent implements OnInit {
   windowWidth: number;
   screenFull: boolean = true;
   username: string;
+  userType: string;
 
   profile = [
     {
@@ -111,8 +112,11 @@ export class NavRightComponent implements OnInit {
     );
   }
 
+  userName: string = 'Loading...';
+
   ngOnInit(): void {
     this.username = this.authService.getUserName();
+    this.userType = this.authService.getUserType();
   }
 
   logout(): void {

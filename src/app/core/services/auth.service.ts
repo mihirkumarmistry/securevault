@@ -1,50 +1,70 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { ApiResponse, ApiStatus } from '@core/model/api.model';
-import { Auth, AuthResp } from '@model/auth.model';
+import { LoginReq, LoginResp, OtpReq, OtpResp, RegisterReq, RegisterResp } from '@core/model/auth.model';
+import { Observable, Subject } from 'rxjs';
 import { ApiService } from '@service/api.service';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ApiErrorService } from '@service/api-error.service';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root'
 })
 export class AuthService {
-  public user: AuthResp;
-  public _loginSubject = new Subject<boolean>();
-  constructor(private apiService: ApiService, private router: Router) { }
+    public _loginSubject = new Subject<boolean>();
 
-  getUserType(): string {
-    return localStorage.getItem('userType') || 'Guest';
-  }
+    constructor(
+        private router: Router,
+        private apiService: ApiService,
+        private spinner: NgxSpinnerService,
+        private apiErrorService: ApiErrorService,
+    ) { }
 
-  getUserName(): string {
-    const user = JSON.parse(localStorage.getItem('user'))
-    return user ? `${user.firstName} ${user.lastName}` : '';
-  }
+    public generateOtp(data: OtpReq): Observable<OtpResp> {
+        return this.apiService.postOtp(data);
+    }
 
-  login(data: Auth): void {
-    this.apiService.postAuth(data).subscribe((resp: ApiResponse<AuthResp>) => {
-      if (resp.status == ApiStatus.Success) {
-        this.user = resp.data;
-        localStorage.setItem('authToken', this.user.accessToken);
-        localStorage.setItem('userType', this.user.userType.name);
-        localStorage.setItem('user', JSON.stringify(this.user));
-        if (this.user.userTypeId == 1) {
-          this.router.navigate(['dashboard']);
-        } else {
-          this.router.navigate(['appointment']);
-        }
+    public login(data: LoginReq): void {
 
-        this._loginSubject.next(true);
-      } else {
-        // Show toaster error
-      }
-    });
-  }
+        this.spinner.show();
 
-  logout(): void {
-    localStorage.clear();
-    this.router.navigate(['login']);
-  }
+        this.apiService.postLogin(data).subscribe({
+            next: (resp: LoginResp) => {
+                this.spinner.hide();
+                sessionStorage.setItem('authToken', resp.access);
+                sessionStorage.setItem('refresh', resp.refresh);
+                sessionStorage.setItem('userType', resp.usertype);
+                sessionStorage.setItem('user', JSON.stringify(resp));
+                this.router.navigateByUrl('/dashboard');
+                this._loginSubject.next(true);
+            },
+            error: () => {
+                this.spinner.hide();
+                this.apiErrorService.toastMessage('Error', 'Failed to verify OTP', 'Failed')
+            }
+        });
+    }
+
+    public registerUser(data: RegisterReq): Observable<RegisterResp> {
+        return this.apiService.postRegisterUser(data);
+    }
+
+    public logout(): void {
+        sessionStorage.clear();
+        this.router.navigateByUrl('/login');
+    }
+
+    public getUserType(): string {
+        return sessionStorage.getItem('userType') || 'Guest';
+    }
+
+    public hasToken(): boolean {
+        return sessionStorage.getItem('authToken') != null;
+    }
+
+    public getUserName(): string {
+        const user = JSON.parse(sessionStorage.getItem('user') ? sessionStorage.getItem('user') : null);
+        const userName = (user.firstname && user.lastname) ? `${user.firstname} ${user.lastname}` : 'Guest';
+        return userName;
+    }
+
 }

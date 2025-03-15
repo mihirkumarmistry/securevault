@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { LoginReq } from '@core/model/auth.model';
 import { AuthService } from '@core/services/auth.service';
 
 @Component({
@@ -16,8 +17,10 @@ export class OtpComponent implements OnInit, OnDestroy {
   protected minutes: number = 3;
   protected seconds: number = 0;
   protected timer: any;
+  private email: string = "";
 
   ngOnInit(): void {
+    this.email = sessionStorage.getItem('email');
     this.otpForm = this.fb.group({
       otp: ['', [Validators.required, Validators.minLength(6)]],
     });
@@ -29,18 +32,15 @@ export class OtpComponent implements OnInit, OnDestroy {
 
   protected onSubmit(): void {
     if (this.otpForm.valid) {
-      // Call auth process 
-      // On responce toggle to Otp Page
-      // this.authService.login(this.loginForm.value);
-
       // Imput sanitization
-      // let formData = this.otpForm.value;
-      // const param: Auth = {
-      //   otp: formData.otp,
-      // }
-      // Call otp verification process 
-      // On responce redirect to dashboard
-      this.router.navigateByUrl('');
+      const value = this.otpForm.value;
+      const param: LoginReq = {
+        email: this.email,
+        otp: value.otp
+      };
+
+      // Login
+      this.authService.login(param);
     }
   }
 

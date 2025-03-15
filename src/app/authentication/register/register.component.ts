@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { RegisterReq } from '@core/model/auth.model';
 import { AuthService } from '@core/services/auth.service';
-import { Auth } from '@model/auth.model';
+import { ApiErrorService } from '@service/api-error.service';
 import { AppRoutes } from '@shared/routes/routes.model';
 
 @Component({
@@ -16,12 +17,18 @@ export default class RegisterComponent {
   protected appRoutes = AppRoutes;
   protected registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private apiErrorService: ApiErrorService,
+  ) { }
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstname: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+      mobile: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
@@ -31,13 +38,25 @@ export default class RegisterComponent {
     if (this.registerForm.valid) {
       // Imput sanitization
       let formData = this.registerForm.value;
-      const param: Auth = {
-        username: formData.username,
+      const param: RegisterReq = {
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        mobile: formData.mobile,
+        email: formData.email,
         password: formData.password
       }
       // Call auth process 
       // On responce toggle to Otp Page
-      this.authService.login(param);
+      this.authService.registerUser(param).subscribe({
+        next: (resp) => {
+          this.apiErrorService.toastMessage('Success', 'Success');
+          this.router.navigateByUrl('/login');
+          console.log('Success');
+        },
+        error: (error) => {
+          this.apiErrorService.toastMessage('Error', 'Error!', 'Failed to create user!');
+        }
+      });
     }
   }
 }

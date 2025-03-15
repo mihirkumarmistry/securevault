@@ -3,8 +3,16 @@ import { UnauthorizedComponent } from '@web/other/unauthorized/unauthorized.comp
 import { GuestComponent } from '@layouts/guest/guest.component';
 import { UserLayoutComponent } from '@layouts/user-layout/user-layout.component';
 import { AppRoutes } from '@shared/routes/routes.model';
+import { AuthGuard } from '@core/guards/auth.guard';
 
 const appRoutes = AppRoutes;
+
+export enum SystemUserType
+{
+  User = "USER",
+  Admin = "ADMIN",
+  Master = "MASTER"
+}
 
 export const routes: Routes = [
     {
@@ -16,10 +24,11 @@ export const routes: Routes = [
           redirectTo: `/${appRoutes.Dashboard}`,
           pathMatch: 'full'
         },
-
         // general
         {
           path: appRoutes.Dashboard,
+          canActivate: [AuthGuard],
+          data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
           loadComponent: () => import('./web/dashboard/dashboard.component').then((c) => c.DefaultComponent)
         },
         {
