@@ -35,13 +35,61 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'dashboard',
       },
       {
-        id: 'sample-page',
-        title: 'Sample Page',
+        id: 'broadcast',
+        title: 'Broadcast',
         type: 'item',
-        url: '/sample-page',
         classes: 'nav-item',
-        icon: 'chrome',
+        url: '/broadcast',
+        icon: 'global',
+      }
+    ]
+  },
+  {
+    id: 'files',
+    title: 'File Upload',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'files',
+        title: 'Files',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/files',
+        icon: 'cloud-upload',
       },
+      {
+        id: 'sharedwithme',
+        title: 'Shared With Me',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/shared-with-me',
+        icon: 'share-alt',
+      }
+    ]
+  },
+  {
+    id: 'manage',
+    title: 'Manage',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'user',
+        title: 'User',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/user',
+        icon: 'user',
+      },
+      {
+        id: 'audit',
+        title: 'Audit Logs',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/audit',
+        icon: 'audit',
+      }
     ]
   }
 ];

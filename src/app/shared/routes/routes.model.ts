@@ -5,6 +5,13 @@ export const AppRoutes = {
     
     // Application
     Dashboard: 'dashboard',
+    Broadcast: 'broadcast',
+    Files: 'files',
+    SharedWithMe: 'shared-with-me',
+
+    // Admin
+    User: 'user',
+    Audit: 'audit',
 
     // Other
     Unauthorized: 'unauthorized'
