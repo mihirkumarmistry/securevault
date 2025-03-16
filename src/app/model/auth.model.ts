@@ -1,28 +1,43 @@
-export class Auth {
-    username: string;
+export class OtpReq {
+    email: string;
     password: string;
 }
 
-export class AuthResp {
-    id: number;
-    firstName: string;
-    lastName: string;
-    username: string;
-    password: string;
-    userTypeId: number;
-    userType: UserType;
-    isActive: boolean;
-    isDeleted: boolean;
-    isUniversal: boolean;
-    isNewPassword: boolean;
-    userTypeName: string;
-    accessToken: string;
+export class OtpResp {
+    message: string;
 }
 
-export class UserType
-{
+export class LoginReq {
+    email: string;
+    otp: number;
+}
+
+export class LoginResp {
+    refresh: string;
+    access: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+    usertype: string;
+}
+
+export class RegisterReq {
+    firstname: string;
+    lastname: string;
+    mobile: string;
+    email: string;
+    password: string;
+}
+
+export class RegisterResp {
+    firstname: string;
+    lastname: string;
+    mobile: string;
+    email: string;
+    password: string;
+}
+
+export class UserRole {
     id: number;
-    name: string;
-    isAdmin: boolean;
-    isActive: boolean;
+    role_name: string;
 }

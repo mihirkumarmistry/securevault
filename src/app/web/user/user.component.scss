@@ -1,0 +1,47 @@
+.action {
+    display: flex;
+
+    span {
+        padding: 3px 6px;
+        border: 2px solid;
+        border-radius: 4px;
+        margin-right: 10px;
+
+        &.edit {
+            background-color: #efe7fe;
+            border-color: #6610f2;
+            color: #6610f2;
+
+            &:hover {
+                cursor: pointer;
+                color: #3e00a3;
+                transition: 300ms;
+                background-color: #ceb5fc;
+            }
+        }
+
+        &.delete {
+            background-color: #fde4e5;
+            border-color: #ff4d4f;
+            color: #ff4d4f;
+
+            &:hover {
+                cursor: pointer;
+                color: #930002;
+                transition: 300ms;
+                background-color: #ffc2c4;
+            }
+        }
+
+        &.disabled {
+            color: #969696;
+            border-color: #dfdfdf;
+            background-color: #dddddd;
+
+            &:hover {
+                cursor: not-allowed;
+                transition: 300ms;
+            }
+        }
+    }
+}

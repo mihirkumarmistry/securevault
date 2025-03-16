@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiResponse } from '@core/model/api.model';
-import { LoginReq, LoginResp, OtpReq, OtpResp, RegisterReq, RegisterResp } from '@core/model/auth.model';
+import { LoginReq, LoginResp, OtpReq, OtpResp, RegisterReq, RegisterResp, UserRole } from '@model/auth.model';
 import { environment } from '@environments/environment.prod';
-import { Auth, AuthResp } from '@model/auth.model';
 import { Observable } from 'rxjs';
+import { UserResp, UserRoleReq } from '@model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,18 @@ export class ApiService {
     Login: `${this.ApiUrl}/user/login/`,
 
     // Register User
-    Register: `${this.ApiUrl}/user/create/`
+    Register: `${this.ApiUrl}/user/create/`,
+
+    // User
+    User: `${this.ApiUrl}/user/`,
+    UserRole: `${this.ApiUrl}/user/roles/`,
+    AllUser: `${this.ApiUrl}/user/all`,
+
+    // File
+    GetAllFiles: `${this.ApiUrl}/file/files`,
+    GetAllSharedFiles: `${this.ApiUrl}/file/files/shared`,
+    FileUpload: `${this.ApiUrl}/file/upload`,
+    DeletFile: `${this.ApiUrl}/file/upload/` // /file/upload/{file_name}
   }
 
   // Authentication and MFA
@@ -35,31 +45,20 @@ export class ApiService {
   public postRegisterUser(data: RegisterReq): Observable<RegisterResp> {
     return this.http.post<RegisterReq>(this.WebAPIs.Register, data);
   }
-  // remove Later
-  public postAuth(data: Auth): Observable<ApiResponse<AuthResp>> {
-    return this.http.post<ApiResponse<AuthResp>>(this.WebAPIs.Register, data);
+  
+  // Users
+  public getUserRoles(): Observable<Array<UserRole>> {
+    return this.http.get<Array<UserRole>>(this.WebAPIs.UserRole);
   }
-
-  // handle errors
-  public handleErrors(error: any): void {
-    if (error.status === 400) {
-      console.error('Bad Request:', error.error?.message || 'Invalid input');
-      alert('Bad Request: Please check your input.');
-    } else if (error.status === 401) {
-      console.error('Unauthorized:', error.error?.message || 'Unauthorized access');
-      alert('Unauthorized: Please log in.');
-    } else if (error.status === 403) {
-      console.error('Forbidden:', error.error?.message || 'Access denied');
-      alert('Forbidden: You do not have permission.');
-    } else if (error.status === 404) {
-      console.error('Not Found:', error.error?.message || 'Resource not found');
-      alert('Not Found: The requested resource was not found.');
-    } else if (error.status === 500) {
-      console.error('Internal Server Error:', error.error?.message || 'Something went wrong');
-      alert('Server Error: Please try again later.');
-    } else {
-      console.error('Unexpected Error:', error);
-      alert('An unexpected error occurred. Please try again.');
-    }
+  public getAllUser(): Observable<Array<UserResp>> {
+    return this.http.get<Array<UserResp>>(this.WebAPIs.AllUser);
+  }
+  public putUserRole(data: UserRoleReq): Observable<any> {
+    return this.http.put<any>(this.WebAPIs.User, data);
+  }
+  
+  // File 
+  public postFileUpload(data: UserRoleReq): Observable<any> {
+    return this.http.put<any>(this.WebAPIs.User, data);
   }
 }
