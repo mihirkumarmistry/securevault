@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { OtpComponent } from '@authentication/otp/otp.component';
-import { OtpReq, OtpResp } from '@core/model/auth.model';
+import { OtpReq, OtpResp } from '@model/auth.model';
 import { AuthService } from '@core/services/auth.service';
 import { ApiErrorService } from '@service/api-error.service';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';

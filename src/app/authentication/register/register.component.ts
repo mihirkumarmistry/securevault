@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { RegisterReq } from '@core/model/auth.model';
+import { RegisterReq } from '@model/auth.model';
 import { AuthService } from '@core/services/auth.service';
 import { ApiErrorService } from '@service/api-error.service';
 import { AppRoutes } from '@shared/routes/routes.model';

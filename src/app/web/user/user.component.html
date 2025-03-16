@@ -1,1 +1,123 @@
-<p>user works!</p>
+<div class="col-md-12">
+    <h5 class="mb-3">Recent Activity</h5>
+    <div class="card tbl-card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th># ID</th>
+                        <th>FIRST NAME</th>
+                        <th>LAST NAME</th>
+                        <th>EMAIL</th>
+                        <th>MOBILE</th>
+                        <th>ROLE</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (user of userList; track user; let i = $index) {
+                    <tr>
+                        <td>
+                            <a href="javascript:" class="text-muted">{{i+1}}</a>
+                        </td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.mobile }}</td>
+                        <td>{{ user.role_id }}</td>
+                        <td class="action">
+                            <span class="edit" (click)="openEditUserModel(edituser, user)">
+                                <i antIcon type="edit" theme="outline"></i>
+                            </span>
+                            <span class="delete">
+                                <i antIcon type="delete" theme="outline"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #edituser let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Edit User</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="userForm">
+            <div class="form-group mb-3">
+                <label class="form-label" for="firstname">First Name</label>
+                <input id="firstname" type="text" formControlName="firstname" placeholder="Enter your first name"
+                    class="form-control" readonly />
+                <div>
+                    @if(userForm.get('firstname').invalid && userForm.get('firstname').touched){
+                    @if(userForm.get('firstname').errors && userForm.get('firstname').errors['required']){
+                    <small class="text-danger">First Name is required.</small>
+                    }
+                    }
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="lastname">Last Name</label>
+                <input id="lastname" type="text" formControlName="lastname" placeholder="Enter your last name"
+                    class="form-control" readonly />
+                <div>
+                    @if(userForm.get('lastname').invalid && userForm.get('lastname').touched){
+                    @if(userForm.get('lastname').errors && userForm.get('lastname').errors['required']){
+                    <small class="text-danger">Last Name is required.</small>
+                    }
+                    }
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input id="email" type="email" formControlName="email" placeholder="Enter your email"
+                    class="form-control" readonly />
+                <div>
+                    @if(userForm.get('email').invalid && userForm.get('email').touched){
+                    @if(userForm.get('email').errors && userForm.get('email').errors['required']){
+                    <small class="text-danger">Email is required.</small>
+                    }
+                    @if(userForm.get('email').errors && userForm.get('email').errors['email']){
+                    <small class="text-danger">Please enter a valid email.</small>
+                    }
+                    }
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="lastname">Mobile</label>
+                <input id="mobile" type="text" formControlName="mobile" placeholder="Enter your mobile"
+                    class="form-control" readonly />
+                <div>
+                    @if(userForm.get('mobile').invalid && userForm.get('mobile').touched){
+                    @if(userForm.get('mobile').errors && userForm.get('mobile').errors['required']){
+                    <small class="text-danger">Mobile is required.</small>
+                    }
+                    }
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="role_id">Role</label>
+                <select id="role_id" formControlName="role_id" placeholder="Enter your role" class="form-control">
+                    @for (role of userRoles; track role) {
+                        <option [value]="role.id">{{role.role_name}}</option>
+                    }
+                </select>
+                <div>
+                    @if(userForm.get('role_id').invalid && userForm.get('role_id').touched){
+                    @if(userForm.get('role_id').errors && userForm.get('role_id').errors['required']){
+                    <small class="text-danger">Role is required.</small>
+                    }
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserRole()">Update</button>
+    </div>
+</ng-template>

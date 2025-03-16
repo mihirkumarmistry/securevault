@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoginReq, LoginResp, OtpReq, OtpResp, RegisterReq, RegisterResp } from '@core/model/auth.model';
+import { LoginReq, LoginResp, OtpReq, OtpResp, RegisterReq, RegisterResp } from '@model/auth.model';
 import { Observable, Subject } from 'rxjs';
 import { ApiService } from '@service/api.service';
 import { Router } from '@angular/router';
