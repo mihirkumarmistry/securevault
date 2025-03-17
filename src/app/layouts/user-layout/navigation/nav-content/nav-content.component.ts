@@ -18,6 +18,7 @@ import {
   CloudUploadOutline,
   CreditCardOutline,
   DashboardOutline,
+  DeleteOutline,
   DollarOutline,
   FontSizeOutline,
   GlobalOutline,
@@ -78,7 +79,8 @@ export class NavContentComponent implements OnInit, AfterViewInit {
         GlobalOutline,
         CloudUploadOutline,
         ShareAltOutline,
-        AuditOutline
+        AuditOutline,
+        DeleteOutline,
       ]
     );
     this.navigations = NavigationItems;

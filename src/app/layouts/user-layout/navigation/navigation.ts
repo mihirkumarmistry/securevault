@@ -65,6 +65,14 @@ export const NavigationItems: NavigationItem[] = [
         classes: 'nav-item',
         url: '/shared-with-me',
         icon: 'share-alt',
+      },
+      {
+        id: 'bin',
+        title: 'Bin',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/bin',
+        icon: 'delete',
       }
     ]
   },

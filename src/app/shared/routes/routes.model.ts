@@ -8,6 +8,7 @@ export const AppRoutes = {
     Broadcast: 'broadcast',
     Files: 'files',
     SharedWithMe: 'shared-with-me',
+    Bin: 'bin',
 
     // Admin
     User: 'user',

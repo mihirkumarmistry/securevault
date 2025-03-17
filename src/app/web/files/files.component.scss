@@ -1,0 +1,106 @@
+.action {
+    display: flex;
+
+    span {
+        padding: 3px 6px;
+        border: 2px solid;
+        border-radius: 4px;
+        margin-right: 10px;
+
+        &.edit {
+            background-color: #efe7fe;
+            border-color: #6610f2;
+            color: #6610f2;
+
+            &:hover {
+                cursor: pointer;
+                color: #3e00a3;
+                transition: 300ms;
+                background-color: #ceb5fc;
+            }
+        }
+
+        &.share {
+            background-color: #e4efff;
+            border-color: #1677ff;
+            color: #1677ff;
+
+            &:hover {
+                cursor: pointer;
+                color: #1677ff;
+                transition: 300ms;
+                border-color: #1677ff;
+                background-color: #e4efff;
+            }
+        }
+
+        &.delete {
+            background-color: #fde4e5;
+            border-color: #ff4d4f;
+            color: #ff4d4f;
+
+            &:hover {
+                cursor: pointer;
+                color: #930002;
+                transition: 300ms;
+                background-color: #ffc2c4;
+            }
+        }
+
+        &.disabled {
+            color: #969696;
+            border-color: #dfdfdf;
+            background-color: #dddddd;
+
+            &:hover {
+                cursor: not-allowed;
+                transition: 300ms;
+            }
+        }
+    }
+}
+
+.search-box {
+    padding: 8px 12px;
+    border: 1px solid #c4c4c4;
+    border-radius: 8px;
+    background: #efe7fe;
+    margin-bottom: 12px;
+}
+
+.table-badge {
+    padding: 2px 8px;
+    border: 2px solid;
+    border-radius: 4px;
+    font-weight: bold;
+
+    &.pdf {
+        color: #dc3545;
+        border-color: #dc3545;
+        background-color: #fcebec;
+    }
+
+    &.image {
+        color: #198754;
+        border-color: #198754;
+        background-color: #e8f3ee;
+    }
+
+    &.word {
+        color: #6610f2;
+        border-color: #6610f2;
+        background-color: #f0e7fe;
+    }
+
+    &.text {
+        color: #0dcaf0;
+        border-color: #0dcaf0;
+        background-color: #e7fafe;
+    }
+
+    &.other {
+        color: #ffc107;
+        border-color: #ffc107;
+        background-color: #fff9e6;
+    }
+}
