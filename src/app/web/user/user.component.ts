@@ -96,7 +96,7 @@ export class UserComponent implements OnInit {
     }
   }
 
-  openEditUserModel(content: TemplateRef<any>, user: UserResp) {
+  protected openEditUserModel(content: TemplateRef<any>, user: UserResp) {
     this.userForm.reset();
     this.userForm.patchValue(user);
     this.modalService.open(content, { centered: true });

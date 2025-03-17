@@ -4,6 +4,7 @@ import { LoginReq, LoginResp, OtpReq, OtpResp, RegisterReq, RegisterResp, UserRo
 import { environment } from '@environments/environment.prod';
 import { Observable } from 'rxjs';
 import { UserResp, UserRoleReq } from '@model/user.model';
+import { UserFile } from '@model/file.model';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,16 @@ export class ApiService {
   }
   
   // File 
-  public postFileUpload(data: UserRoleReq): Observable<any> {
-    return this.http.put<any>(this.WebAPIs.User, data);
+  public postFileUpload(data: FormData): Observable<any> {
+    return this.http.post<any>(this.WebAPIs.FileUpload, data);
+  }
+  public getAllFile(): Observable<Array<UserFile>> {
+    return this.http.get<Array<UserFile>>(this.WebAPIs.GetAllFiles);
+  }
+  public downloadFile(file_link: string): Observable<Blob> {
+    return this.http.get<Blob>(`${this.WebAPIs.FileUpload}/${file_link}`, { responseType: 'blob' as 'json' });
+  }
+  public deleteFile(file_link: string): Observable<any> {
+    return this.http.delete<any>(`${this.WebAPIs.FileUpload}/${file_link}`);
   }
 }

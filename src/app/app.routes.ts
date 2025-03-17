@@ -50,6 +50,12 @@ export const routes: Routes = [
           data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
           loadComponent: () => import('./web/shared-with-me/shared-with-me.component').then((c) => c.SharedWithMeComponent)
         },
+        {
+          path: appRoutes.Bin,
+          canActivate: [AuthGuard],
+          data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
+          loadComponent: () => import('./web/bin/bin.component').then((c) => c.BinComponent)
+        },
         
         // admin
         {
