@@ -1,2 +1,4 @@
 # Securevault
-This is a project to create a secure data sharing platform for medical application. This application will utilis the cloud computing technology to provide data security.
+**Securevault** is a secure file sharing application. It contains multiple security mechanisms, including **RBAC** (Role-Based Access Control), **AES** (Advanced Encryption Standard) for data encryption, **MFA** (Multi-Factor Authentication), and **TLS** (Transport Layer Security) for secure transmission.
+
+# Steps to run the applications
