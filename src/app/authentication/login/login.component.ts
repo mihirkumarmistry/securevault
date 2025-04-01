@@ -6,11 +6,14 @@ import { OtpReq, OtpResp } from '@model/auth.model';
 import { AuthService } from '@core/services/auth.service';
 import { ApiErrorService } from '@service/api-error.service';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
+import { IconService } from '@ant-design/icons-angular';
+import { EyeInvisibleOutline, EyeOutline } from '@ant-design/icons-angular/icons';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, FormsModule, ReactiveFormsModule, OtpComponent, NgxSpinnerComponent],
+  imports: [RouterModule, FormsModule, ReactiveFormsModule, OtpComponent, NgxSpinnerComponent, SharedModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -21,13 +24,20 @@ export default class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private iconService: IconService,
     private spinner: NgxSpinnerService,
-    private apiErrorService: ApiErrorService) { }
+    private apiErrorService: ApiErrorService) {
+          this.iconService.addIcon(EyeOutline, EyeInvisibleOutline);
+     }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$')
+      ]]
     });
   }
 

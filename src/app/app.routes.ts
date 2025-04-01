@@ -11,7 +11,7 @@ export enum SystemUserType
 {
   User = "USER",
   Admin = "ADMIN",
-  Master = "MANAGER"
+  Master = "MASTER"
 }
 
 export const routes: Routes = [
@@ -31,12 +31,6 @@ export const routes: Routes = [
           canActivate: [AuthGuard],
           data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
           loadComponent: () => import('./web/dashboard/dashboard.component').then((c) => c.DefaultComponent)
-        },
-        {
-          path: appRoutes.Broadcast,
-          canActivate: [AuthGuard],
-          data: { allowedUserTypes: [SystemUserType.User, SystemUserType.Admin, SystemUserType.Master] },
-          loadComponent: () => import('./web/broadcast/broadcast.component').then((c) => c.BroadcastComponent)
         },
         {
           path: appRoutes.Files,

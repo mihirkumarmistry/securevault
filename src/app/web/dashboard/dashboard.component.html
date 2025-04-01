@@ -35,15 +35,25 @@
                             <td>
                                 <a href="javascript:" class="text-muted">{{ log.id }}</a>
                             </td>
-                            <td>{{ log.name }}</td>
+                            <td>{{ log.file_name }}</td>
                             <td>{{ log.type }}</td>
                             <td class="text-start">
                                 <span class="d-block">
-                                    <i class="badge-circle {{ log.status_type }} f-10 m-r-5"></i>
+                                    @switch (log.action) {
+                                        @case ('UPLOAD') {
+                                            <i class="badge-circle bg-success f-10 m-r-5"></i>
+                                        }
+                                        @case ('ACCESS') {
+                                            <i class="badge-circle bg-warning f-10 m-r-5"></i>
+                                        }
+                                        @case ('MOVED TO BIN') {
+                                            <i class="badge-circle bg-danger f-10 m-r-5"></i>
+                                        }
+                                    }
                                     {{ log.action }}
                                 </span>
                             </td>
-                            <td>{{ log.time }}</td>
+                            <td>{{ log.created_time }}</td>
                         </tr>
                         }
                     </tbody>

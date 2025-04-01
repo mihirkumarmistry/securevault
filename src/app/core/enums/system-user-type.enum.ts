@@ -1,6 +1,6 @@
 export enum SystemUserType
 {
-  Master = "Master",
-  Admin = "Admin",
-  User = "User"
+  Master = "MANAGER",
+  Admin = "ADMIN",
+  User = "USER"
 }

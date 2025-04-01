@@ -1,9 +1,11 @@
 <div class="d-flex justify-content-between search-box">
     <div class="col-md-4">
-        <input id="search" type="search" [(ngModel)]="searchText" placeholder="Search File"
-            (keyup)="onSearchChange($event)" class="form-control">
+        <input id="search" type="search" [(ngModel)]="searchText" placeholder="Search File" (keyup)="onSearchChange()"
+            class="form-control">
     </div>
-    <button class="btn btn-primary" (click)="openFileUploadModel(fileupload)">Upload</button>
+    <button class="btn btn-primary" (click)="openFileUploadModel(fileupload)">
+        <i antIcon type="cloud-upload" theme="outline"></i> Upload
+    </button>
 </div>
 <div class="col-md-12">
     <div class="card tbl-card">
@@ -20,6 +22,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if(files.length == 0) {
+                    <tr>
+                        <td colspan="6">
+                            <p class="text-center m-0"> No Record Found </p>
+                        </td>
+                    </tr>
+                    }
                     @for (file of files; track file) {
                     <tr>
                         <td>
@@ -33,6 +42,7 @@
                             }
 
                             <!-- Images -->
+
                             @case ('PNG') {
                             <span class="table-badge image">{{file.type}}</span>
                             }
@@ -57,13 +67,13 @@
                         <td>{{ file.size }}</td>
                         <td>{{ file.created_time }}</td>
                         <td class="action d-flex justify-content-center">
-                            <span class="edit" title="Edit">
+                            <span class="edit" title="Edit" (click)="getFileByName(file)">
                                 <i antIcon type="eye" theme="outline"></i>
                             </span>
                             <span class="edit" title="Download" (click)="downloadFile(file)">
                                 <i antIcon type="download" theme="outline"></i>
                             </span>
-                            <span class="share" title="Share">
+                            <span class="share" title="Share" (click)="onShareFile(file)">
                                 <i antIcon type="share-alt" theme="outline"></i>
                             </span>
                             <span class="delete" title="Delete" (click)="openFileDeleteModel(deleteFileModel, file)">
@@ -90,8 +100,37 @@
     </div>
 </div>
 
-{{viewFileurl}}
-<iframe *ngIf="viewFileurl" [src]="viewFileurl" width="100%" height="600px"></iframe>
+
+<ng-template #fileview let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">File View</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        @if (fileToView.fileData != null) {
+        @switch (fileToView.type) {
+        @case ('PDF') {
+        <pdf-viewer [src]="fileToView.fileData" [render-text]="true" style="display: block;"></pdf-viewer>
+        }
+        @case ('SVG') {
+        <div [innerHTML]="fileToView.fileData"></div>
+        }
+        @case ('JPEG') {
+        <img [src]="fileToView.fileData" class="view-img" alt="">
+        }
+        @case ('PNG') {
+        <img [src]="fileToView.fileData" class="view-img" alt="">
+        }
+        @case ('PLAIN') {
+        <pre>{{ fileToView.fileData }}</pre>
+        }
+        }
+        }
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
 
 <ng-template #fileupload let-modal>
     <div class="modal-header">
@@ -103,7 +142,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
-        <button type="button" class="btn btn-primary" (click)="uploadFile()">Update</button>
+        <button type="button" class="btn btn-primary" (click)="uploadFile()">Upload</button>
     </div>
 </ng-template>
 
@@ -118,5 +157,83 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="deleteFile()">Delete</button>
+    </div>
+</ng-template>
+
+<ng-template #fileshare let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Share File</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="onCloseShareModel()"></button>
+    </div>
+    <div class="modal-body">
+        @if (fileToShare != null) {
+            <div class="share-file">
+                <span>{{fileToShare.file_name}}</span>
+                <span>{{fileToShare.size}}</span>
+                @switch (fileToShare.type) {
+                @case ('PDF') {
+                <span class="table-badge pdf">{{fileToShare.type}}</span>
+                }
+    
+                <!-- Images -->
+    
+                @case ('PNG') {
+                <span class="table-badge image">{{fileToShare.type}}</span>
+                }
+                @case ('JPEG') {
+                <span class="table-badge image">{{fileToShare.type}}</span>
+                }
+                @case ('SVG') {
+                <span class="table-badge image">{{fileToShare.type}}</span>
+                }
+    
+                @case ('DOCX') {
+                <span class="table-badge word">{{fileToShare.type}}</span>
+                }
+                @case ('PLAIN') {
+                <span class="table-badge text">{{fileToShare.type}}</span>
+                }
+                @default {
+                <span class="table-badge other">{{fileToShare.type}}</span>
+                }
+                }
+            </div>
+        }
+        <hr>
+        <div class="row">
+            <div class="col-8 mb-2">
+                <span class="fw-bold">Users</span>
+            </div>
+            <div class="col-4 mb-2">
+                <span class="fw-bold">Access</span>
+            </div>
+
+            @for (item of fileShare.users; track item) {
+            <div class="col-8">
+                <div class="form-group">
+                    <select placeholder="Select User" [(ngModel)]="item.user_id" class="form-control">
+                        @for (user of allUsers; track user) {
+                        <option [value]="user.id">{{user.firstname}} {{user.lastname}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <select placeholder="Select User" [(ngModel)]="item.access_id" class="form-control">
+                    <option [ngValue]="1">View</option>
+                    <option [ngValue]="2">Download</option>
+                    <option [ngValue]="3">Delete</option>
+                </select>
+            </div>
+            }
+            <div class="col-8"></div>
+            <div class="col-4 d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="shareAddUser()">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onCloseShareModel()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveShareFile()">Share</button>
     </div>
 </ng-template>

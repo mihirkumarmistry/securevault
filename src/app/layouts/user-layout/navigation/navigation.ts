@@ -25,6 +25,8 @@ export const NavigationItems: NavigationItem[] = [
     title: 'General',
     type: 'group',
     icon: 'icon-navigation',
+    hidden: false,
+    isAdminOnly: false,
     children: [
       {
         id: 'dashboard',
@@ -33,14 +35,6 @@ export const NavigationItems: NavigationItem[] = [
         classes: 'nav-item',
         url: '/dashboard',
         icon: 'dashboard',
-      },
-      {
-        id: 'broadcast',
-        title: 'Broadcast',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/broadcast',
-        icon: 'global',
       }
     ]
   },
@@ -49,6 +43,8 @@ export const NavigationItems: NavigationItem[] = [
     title: 'File Upload',
     type: 'group',
     icon: 'icon-navigation',
+    hidden: false,
+    isAdminOnly: false,
     children: [
       {
         id: 'files',
@@ -81,6 +77,8 @@ export const NavigationItems: NavigationItem[] = [
     title: 'Manage',
     type: 'group',
     icon: 'icon-navigation',
+    hidden: false,
+    isAdminOnly: true,
     children: [
       {
         id: 'user',

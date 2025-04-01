@@ -1,1 +1,131 @@
-<p>audit works!</p>
+<div class="d-flex justify-content-between search-box">
+    <div class="col-md-4">
+        <input id="search" type="search" [(ngModel)]="searchText" placeholder="Search File" (keyup)="onSearchChange()"
+            class="form-control">
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="card tbl-card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th># ID</th>
+                        <th>ACTOR</th>
+                        <th>ACTION</th>
+                        <th>CONTENT TYPE</th>
+                        <th>CONTENT NAME</th>
+                        <th>TIMESTAMP</th>
+                        <th class="text-center">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(logs.length == 0) {
+                    <tr>
+                        <td colspan="7">
+                            <p class="text-center m-0"> No Record Found </p>
+                        </td>
+                    </tr>
+                    }
+                    @for (log of logs; track log) {
+                    <tr>
+                        <td>
+                            <a href="javascript:" class="text-muted">{{log.id}}</a>
+                        </td>
+                        <td>{{ log.actor }}</td>
+                        <td>{{ log.action }}</td>
+                        <td>{{ log.content_type }}</td>
+                        <td>
+                            @if(log.action === 'VIEWED'){
+                            {{log.object_repr}}
+                            } @else {
+                            {{ (log.changes && log.changes.file_name && log.changes.file_name[1]) ?
+                            log.changes.file_name[1] : '-' }}
+                            }
+                        </td>
+                        <td>{{ log.timestamp | date: 'dd-MM-yyyy hh:mm a'}}</td>
+                        <td class="action d-flex justify-content-center">
+                            <span class="edit" title="Edit" (click)="onViewLog(log)">
+                                <i antIcon type="eye" theme="outline"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+                <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshFiles()">
+                    <option [ngValue]="8">8 items per page</option>
+                    <option [ngValue]="12">12 items per page</option>
+                    <option [ngValue]="16">16 items per page</option>
+                </select>
+
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="refreshFiles()">
+                </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #logview let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Audit Log</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <tr>
+                    <td class="fw-bold">Id:</td>
+                    <td>{{viewLog.id}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Actor:</td>
+                    <td>{{viewLog.actor}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Action:</td>
+                    <td>{{viewLog.action}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Content Type:</td>
+                    <td>{{viewLog.content_type}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Object Pk:</td>
+                    <td>{{viewLog.object_pk}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Object Id:</td>
+                    <td>{{viewLog.object_id}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Object Repr:</td>
+                    <td>{{viewLog.object_repr}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Changes Text:</td>
+                    <td>{{viewLog.changes_text}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Cid:</td>
+                    <td>{{viewLog.cid}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Remote Addr:</td>
+                    <td>{{viewLog.remote_addr}}</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Timestamp:</td>
+                    <td>{{viewLog.timestamp | date: 'dd-MM-yyyy hh:mm a'}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

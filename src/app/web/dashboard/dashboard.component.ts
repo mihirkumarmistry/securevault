@@ -1,14 +1,12 @@
 // angular import
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-// project import
-import { SharedModule } from '@shared/shared.module';
-
-// icons
 import { IconService } from '@ant-design/icons-angular';
 import { CloudServerOutline, FallOutline, FileImageOutline, FileOutline, FilePdfOutline, FileTextOutline, FileWordOutline, GiftOutline, MessageOutline, RiseOutline, SettingOutline } from '@ant-design/icons-angular/icons';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { Dashboard } from '@model/dashboard.model';
+import { ApiService } from '@service/api.service';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-default',
@@ -20,57 +18,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DefaultComponent {
-  recentLogs = [
-    {
-      id: "84564564",
-      name: "Camera Lens",
-      type: "Pdf",
-      action: "Delete",
-      status_type: "bg-danger",
-      time: "2025-03-15 10:30"
-    },
-    {
-      id: "84564786",
-      name: "Laptop",
-      type: "Image",
-      action: "Read",
-      status_type: "bg-warning",
-      time: "2025-03-15 10:31"
-    },
-    {
-      id: "84564522",
-      name: "Mobile",
-      type: "Doc",
-      action: "Upload",
-      status_type: "bg-success",
-      time: "2025-03-15 10:31"
-    },
-    {
-      id: "84564564",
-      name: "Camera Lens",
-      type: "Txt",
-      action: "Delete",
-      status_type: "bg-danger",
-      time: "2025-03-15 10:31"
-    },
-    {
-      id: "84564786",
-      name: "Laptop",
-      type: "Image",
-      action: "Read",
-      status_type: "bg-warning",
-      time: "2025-03-15 10:31"
-    },
-    {
-      id: "84564522",
-      name: "Mobile",
-      type: "Image",
-      action: "Upload",
-      status_type: "bg-success",
-      time: "2025-03-15 10:31"
-    }
-  ];
+export class DefaultComponent implements OnInit {
+  recentLogs = [];
 
   files = [
     {
@@ -120,35 +69,108 @@ export class DefaultComponent {
       title: 'Storage',
       icon: 'assets/images/icons/storage.svg',
       color: 'text-primary card-num-primary',
-      number: '53%',
-      message: 'of the 15GB is occupied'
+      number: '',
+      message: 'of the 2GB is used'
     },
     {
       title: 'Shared With Me',
       icon: 'assets/images/icons/shared.svg',
       color: 'text-primary card-num-primary',
-      number: 110,
+      number: '',
       message: 'files are shared with me'
     },
     {
       title: 'Total Files',
       icon: 'assets/images/icons/files.svg',
       color: 'text-primary card-num-primary',
-      number: '100',
+      number: '',
       message: 'files are in your storage'
     },
     {
       title: 'Total In Bin',
       icon: 'assets/images/icons/bin.svg',
       color: 'text-danger card-num-danger',
-      number: '10',
+      number: '',
       message: 'files are in the Bin'
     }
   ];
 
   // constructor
-  constructor(private iconService: IconService, private spinner: NgxSpinnerService) {
+  constructor(
+    private iconService: IconService,
+    private apiService: ApiService
+  ) {
     this.iconService.addIcon(...[FileOutline, FileTextOutline, FileImageOutline, FileWordOutline, FilePdfOutline, CloudServerOutline, RiseOutline, FallOutline, SettingOutline, GiftOutline, MessageOutline]);
+  }
+
+  ngOnInit(): void {
+    this.getDashboard();
+  }
+
+  protected getDashboard(): void {
+    this.apiService.getDashboard().subscribe({
+      next: (resp: Dashboard) => {
+        this.recentLogs = resp.recent_logs;
+
+        this.AnalyticEcommerce.forEach((item) => {
+          switch (item.title) {
+            case 'Storage':
+              item.number = resp.total_size
+              break;
+            case 'Shared With Me':
+              item.number = resp.shared_count.toString()
+              break;
+            case 'Total Files':
+              item.number = resp.file.toString()
+              break;
+            case 'Total In Bin':
+              item.number = resp.bin.toString()
+              break;
+            default:
+              break;
+          }
+        });
+
+        this.files.forEach((item) => {
+          switch (item.title) {
+            case 'PDF':
+              const pdfCount = resp.files.find(d => d.type == 'PDF')?.count;
+              item.amount = pdfCount.toString() ?? '0';
+              item.percentage = `${((pdfCount*100)/resp.file).toFixed(2)}%`;
+              break;
+
+            case 'Text':
+              const plainCount = resp.files.find(d => d.type == 'PLAIN')?.count;
+              item.amount = plainCount.toString() ?? '0';
+              item.percentage = `${((plainCount*100)/resp.file).toFixed(2)}%`;
+              break;
+
+            case 'Word':
+              const docxCount = resp.files.find(d => d.type == 'DOCX')?.count;
+              item.amount = docxCount.toString() ?? '0';
+              item.percentage = `${((docxCount*100)/resp.file).toFixed(2)}%`;
+              break;
+
+            case 'Other':
+              const otherCount = resp.files.find(d => d.type == 'ZIP')?.count;
+              item.amount = otherCount.toString() ?? '0';
+              item.percentage = `${((otherCount*100)/resp.file).toFixed(2)}%`;
+              break;
+
+            case 'Image':
+              let ImageCount = resp.files.find(d => d.type == 'PNG') ? resp.files.find(d => d.type == 'PNG').count : 0;
+              ImageCount += resp.files.find(d => d.type == 'SVG') ? resp.files.find(d => d.type == 'SVG').count : 0;
+              ImageCount += resp.files.find(d => d.type == 'JPEG') ? resp.files.find(d => d.type == 'JPEG').count : 0;
+              item.amount = ImageCount.toString() ?? '0';
+              item.percentage = `${((ImageCount*100)/resp.file).toFixed(2)}%`;
+              break;
+          
+            default:
+              break;
+          }
+        });
+      }
+    });
   }
 
 }

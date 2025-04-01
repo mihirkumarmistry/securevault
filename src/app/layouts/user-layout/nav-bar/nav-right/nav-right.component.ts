@@ -57,18 +57,10 @@ export class NavRightComponent implements OnInit {
     {
       icon: 'profile',
       title: 'Social Profile'
-    },
-    {
-      icon: 'wallet',
-      title: 'Billing'
     }
   ];
 
   setting = [
-    {
-      icon: 'question-circle',
-      title: 'Support'
-    },
     {
       icon: 'user',
       title: 'Account Settings'
@@ -76,10 +68,6 @@ export class NavRightComponent implements OnInit {
     {
       icon: 'lock',
       title: 'Privacy Center'
-    },
-    {
-      icon: 'comment',
-      title: 'Feedback'
     },
     {
       icon: 'unordered-list',

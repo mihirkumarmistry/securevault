@@ -138,14 +138,8 @@ export class NavContentComponent implements OnInit, AfterViewInit {
     const userType = this.authService.getUserType();
     this.navigations.forEach(d => {
       if (d.isAdminOnly) {
-        d.hidden = (userType != SystemUserType.Admin);
+        d.hidden = !(userType != SystemUserType.User);
       }
-
-      d.children.forEach(c => {
-        if (c.isAdminOnly) {
-          c.hidden = (userType != SystemUserType.Admin);
-        }
-      })
     })
   }
 }

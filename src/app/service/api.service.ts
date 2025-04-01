@@ -4,7 +4,9 @@ import { LoginReq, LoginResp, OtpReq, OtpResp, RegisterReq, RegisterResp, UserRo
 import { environment } from '@environments/environment.prod';
 import { Observable } from 'rxjs';
 import { UserResp, UserRoleReq } from '@model/user.model';
-import { UserFile } from '@model/file.model';
+import { FileShare, UserFile } from '@model/file.model';
+import { AuditLogs } from '@model/audit.model';
+import { Dashboard } from '@model/dashboard.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +30,17 @@ export class ApiService {
 
     // File
     GetAllFiles: `${this.ApiUrl}/file/files`,
-    GetAllSharedFiles: `${this.ApiUrl}/file/files/shared`,
+    SharedFiles: `${this.ApiUrl}/file/files/shared`,
+    FileBin: `${this.ApiUrl}/file/files/bin`,
     FileUpload: `${this.ApiUrl}/file/upload`,
-    DeletFile: `${this.ApiUrl}/file/upload/` // /file/upload/{file_name}
+    DeletFile: `${this.ApiUrl}/file/upload/`,
+    
+    // Audit
+    Audit: `${this.ApiUrl}/auditlogs`,
+
+    // Dashboard
+    Dashboard: `${this.ApiUrl}/user/dashboard`,
+
   }
 
   // Authentication and MFA
@@ -69,6 +79,32 @@ export class ApiService {
     return this.http.get<Blob>(`${this.WebAPIs.FileUpload}/${file_link}`, { responseType: 'blob' as 'json' });
   }
   public deleteFile(file_link: string): Observable<any> {
+    return this.http.delete<any>(`${this.WebAPIs.FileBin}/${file_link}`);
+  }
+  public getBinFiles(): Observable<Array<UserFile>> {
+    return this.http.get<Array<UserFile>>(this.WebAPIs.FileBin);
+  }
+  public deleteBinFile(file_link: string): Observable<any> {
     return this.http.delete<any>(`${this.WebAPIs.FileUpload}/${file_link}`);
   }
+  public getAllSharedFile(): Observable<Array<UserFile>> {
+    return this.http.get<Array<UserFile>>(this.WebAPIs.SharedFiles);
+  }
+  public postFileShare(data: FileShare): Observable<any> {
+    return this.http.post<any>(this.WebAPIs.SharedFiles, data);
+  }
+  public deleteSharedFile(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.WebAPIs.SharedFiles}/${id}`);
+  }
+
+  // Audit Logs
+  public getAuditLogs(): Observable<AuditLogs[]> {
+    return this.http.get<AuditLogs[]>(this.WebAPIs.Audit);
+  }
+  
+  // Dashboard
+  public getDashboard(): Observable<Dashboard> {
+    return this.http.get<Dashboard>(this.WebAPIs.Dashboard);
+  }
+
 }
