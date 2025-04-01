@@ -1,1 +1,90 @@
-<p>Dashboard Works!</p>
+<div class="row">
+    @for (analytic of AnalyticEcommerce; track analytic) {
+    <div class="col-md-6 col-xl-3">
+        <app-card [showHeader]="false" blockClass="dashboard-card" class="card-border">
+            <h4 class="mb-2 f-w-800 text-muted">{{ analytic.title }}</h4>
+            <div class="card-icon">
+                <img [src]="analytic.icon" alt="">
+            </div>
+            <h5 class="mb-0 text-muted">
+                Total
+                <span class="{{ analytic.color }}">{{ analytic.number }} </span>
+                {{ analytic.message }}
+            </h5>
+        </app-card>
+    </div>
+    }
+
+    <div class="col-md-12 col-xl-8">
+        <h5 class="mb-3">Recent Activity</h5>
+        <div class="card tbl-card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>FILE ID.</th>
+                            <th>FILE NAME</th>
+                            <th>FILE TYPE</th>
+                            <th>ACTION</th>
+                            <th>TIME</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (log of recentLogs; track log) {
+                        <tr>
+                            <td>
+                                <a href="javascript:" class="text-muted">{{ log.id }}</a>
+                            </td>
+                            <td>{{ log.file_name }}</td>
+                            <td>{{ log.type }}</td>
+                            <td class="text-start">
+                                <span class="d-block">
+                                    @switch (log.action) {
+                                        @case ('UPLOAD') {
+                                            <i class="badge-circle bg-success f-10 m-r-5"></i>
+                                        }
+                                        @case ('ACCESS') {
+                                            <i class="badge-circle bg-warning f-10 m-r-5"></i>
+                                        }
+                                        @case ('MOVED TO BIN') {
+                                            <i class="badge-circle bg-danger f-10 m-r-5"></i>
+                                        }
+                                    }
+                                    {{ log.action }}
+                                </span>
+                            </td>
+                            <td>{{ log.created_time }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 col-xl-4">
+        <h5 class="mb-3">Files</h5>
+        <div class="card">
+            <div class="list-group list-group-flush">
+                @for (history of files; track history) {
+                <a href="javascript:" class="list-group-item list-group-item-action px-3">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="avatar avatar-s rounded-circle {{ history.background }}">
+                                <i class="f-16" antIcon type="{{ history.icon }}" theme="outline"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-1">{{ history.title }}</h6>
+                            <p class="mb-0 text-muted">{{ history.time }}</p>
+                        </div>
+                        <div class="flex-shrink-0 text-end">
+                            <h6 class="mb-1">{{ history.amount }}</h6>
+                            <p class="mb-0 text-muted">{{ history.percentage }}</p>
+                        </div>
+                    </div>
+                </a>
+                }
+            </div>
+        </div>
+    </div>

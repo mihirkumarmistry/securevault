@@ -1,0 +1,132 @@
+<div class="d-flex justify-content-between search-box">
+    <div class="col-md-4">
+        <input id="search" type="search" [(ngModel)]="searchText" placeholder="Search File"
+            (keyup)="onSearchChange($event)" class="form-control">
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="card tbl-card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th># ID</th>
+                        <th>NAME</th>
+                        <th>TYPE</th>
+                        <th>SIZE</th>
+                        <th>DATE</th>
+                        <th class="text-center">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(files.length == 0) {
+                        <tr>
+                            <td colspan="7">
+                                <p class="text-center m-0"> No Record Found </p>
+                            </td>
+                        </tr>
+                    }
+                    @for (file of files; track file) {
+                    <tr>
+                        <td>
+                            <a href="javascript:" class="text-muted">{{file.id}}</a>
+                        </td>
+                        <td>{{ file.file_name }}</td>
+                        <td>
+                            @switch (file.type) {
+                            @case ('PDF') {
+                            <span class="table-badge pdf">{{file.type}}</span>
+                            }
+
+                            <!-- Images -->
+                            @case ('PNG') {
+                            <span class="table-badge image">{{file.type}}</span>
+                            }
+                            @case ('JPEG') {
+                            <span class="table-badge image">{{file.type}}</span>
+                            }
+                            @case ('SVG') {
+                            <span class="table-badge image">{{file.type}}</span>
+                            }
+
+                            @case ('DOCX') {
+                            <span class="table-badge word">{{file.type}}</span>
+                            }
+                            @case ('PLAIN') {
+                            <span class="table-badge text">{{file.type}}</span>
+                            }
+                            @default {
+                            <span class="table-badge other">{{file.type}}</span>
+                            }
+                            }
+                        </td>
+                        <td>{{ file.size }}</td>
+                        <td>{{ file.created_time }}</td>
+                        <td class="action d-flex justify-content-center">
+                            @if(file.access >= 1){
+                                <span class="edit" title="Edit" (click)="getFileByName(file)">
+                                    <i antIcon type="eye" theme="outline"></i>
+                                </span>
+                            }
+                            @if(file.access >= 2) {
+                                <span class="edit" title="Download" (click)="downloadFile(file)">
+                                    <i antIcon type="download" theme="outline"></i>
+                                </span>
+                            }
+                            @if(file.access >= 3) {
+                                <span class="delete" title="Delete">
+                                    <i antIcon type="delete" theme="outline"></i>
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+                <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshFiles()">
+                    <option [ngValue]="8">8 items per page</option>
+                    <option [ngValue]="12">12 items per page</option>
+                    <option [ngValue]="16">16 items per page</option>
+                </select>
+
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="refreshFiles()">
+                </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #fileview let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">File View</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        @if (fileToView.fileData != null) {
+        @switch (fileToView.type) {
+        @case ('PDF') {
+        <pdf-viewer [src]="fileToView.fileData" [render-text]="true" style="display: block;"></pdf-viewer>
+        }
+        @case ('SVG') {
+        <div [innerHTML]="fileToView.fileData"></div>
+        }
+        @case ('JPEG') {
+        <img [src]="fileToView.fileData" class="view-img" alt="">
+        }
+        @case ('PNG') {
+        <img [src]="fileToView.fileData" class="view-img" alt="">
+        }
+        @case ('PLAIN') {
+        <pre style="text-overflow: wrap;">{{ fileToView.fileData }}</pre>
+        }
+        }
+        }
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

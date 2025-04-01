@@ -11,22 +11,27 @@ import { NavGroupComponent } from './nav-group/nav-group.component';
 import { IconService } from '@ant-design/icons-angular';
 import {
   AntDesignOutline,
+  AuditOutline,
   BgColorsOutline,
   CalendarOutline,
   ChromeOutline,
+  CloudUploadOutline,
   CreditCardOutline,
   DashboardOutline,
+  DeleteOutline,
   DollarOutline,
   FontSizeOutline,
+  GlobalOutline,
   LoginOutline,
   PlusCircleOutline,
   PlusOutline,
   ProfileOutline,
   QuestionOutline,
+  ShareAltOutline,
 } from '@ant-design/icons-angular/icons';
 import { environment } from '../../../../../environments/environment.prod';
 import { SystemUserType } from '../../../../core/enums/system-user-type.enum';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
 import { SharedModule } from '../../../../shared/shared.module';
 
 @Component({
@@ -71,6 +76,11 @@ export class NavContentComponent implements OnInit, AfterViewInit {
         CalendarOutline,
         PlusCircleOutline,
         PlusOutline,
+        GlobalOutline,
+        CloudUploadOutline,
+        ShareAltOutline,
+        AuditOutline,
+        DeleteOutline,
       ]
     );
     this.navigations = NavigationItems;
@@ -128,14 +138,8 @@ export class NavContentComponent implements OnInit, AfterViewInit {
     const userType = this.authService.getUserType();
     this.navigations.forEach(d => {
       if (d.isAdminOnly) {
-        d.hidden = (userType != SystemUserType.Admin);
+        d.hidden = !(userType != SystemUserType.User);
       }
-
-      d.children.forEach(c => {
-        if (c.isAdminOnly) {
-          c.hidden = (userType != SystemUserType.Admin);
-        }
-      })
     })
   }
 }
