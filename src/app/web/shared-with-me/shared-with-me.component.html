@@ -57,24 +57,33 @@
                             <span class="table-badge text">{{file.type}}</span>
                             }
                             @default {
-                            <span class="table-badge other">{{file.type}}</span>
+                            <span class="table-badge other">OTHER</span>
                             }
                             }
                         </td>
                         <td>{{ file.size }}</td>
                         <td>{{ file.created_time }}</td>
                         <td class="action d-flex justify-content-center">
-                            @if(file.access >= 1){
+                            @if(file.access == 2){
                                 <span class="edit" title="Edit" (click)="getFileByName(file)">
                                     <i antIcon type="eye" theme="outline"></i>
                                 </span>
                             }
-                            @if(file.access >= 2) {
+                            @if(file.access == 3) {
+                                <span class="edit" title="Edit" (click)="getFileByName(file)">
+                                    <i antIcon type="eye" theme="outline"></i>
+                                </span>
                                 <span class="edit" title="Download" (click)="downloadFile(file)">
                                     <i antIcon type="download" theme="outline"></i>
                                 </span>
                             }
-                            @if(file.access >= 3) {
+                            @if(file.access == 1) {
+                                <span class="edit" title="Edit" (click)="getFileByName(file)">
+                                    <i antIcon type="eye" theme="outline"></i>
+                                </span>
+                                <span class="edit" title="Download" (click)="downloadFile(file)">
+                                    <i antIcon type="download" theme="outline"></i>
+                                </span>
                                 <span class="delete" title="Delete">
                                     <i antIcon type="delete" theme="outline"></i>
                                 </span>

@@ -27,32 +27,32 @@ export class DefaultComponent implements OnInit {
       icon: 'file-pdf',
       title: 'PDF',
       time: 'Total PDF Files',
-      amount: '50',
-      percentage: '50%'
+      amount: '0',
+      percentage: '0%'
     },
     {
       background: 'text-success bg-light-success',
       icon: 'file-image',
       title: 'Image',
       time: 'Total Image Files',
-      amount: '30 ',
-      percentage: '30%'
+      amount: '0 ',
+      percentage: '0%'
     },
     {
       background: 'text-primary bg-light-primary',
       icon: 'file-word',
       title: 'Word',
       time: 'Total Word Files',
-      amount: '10',
-      percentage: '10%'
+      amount: '0',
+      percentage: '0%'
     },
     {
       background: 'text-info bg-light-info',
       icon: 'file-text',
       title: 'Text',
       time: 'Total Text Files',
-      amount: '10',
-      percentage: '10%'
+      amount: '0',
+      percentage: '0%'
     },
     {
       background: 'text-warning bg-light-warning',

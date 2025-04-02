@@ -60,7 +60,7 @@
                             <span class="table-badge text">{{file.type}}</span>
                             }
                             @default {
-                            <span class="table-badge other">{{file.type}}</span>
+                            <span class="table-badge other">OTHER</span>
                             }
                             }
                         </td>
@@ -220,9 +220,9 @@
             </div>
             <div class="col-4">
                 <select placeholder="Select User" [(ngModel)]="item.access_id" class="form-control">
-                    <option [ngValue]="1">View</option>
-                    <option [ngValue]="2">Download</option>
-                    <option [ngValue]="3">Delete</option>
+                    <option [ngValue]="1">Full</option>
+                    <option [ngValue]="2">View</option>
+                    <option [ngValue]="3">Download</option>
                 </select>
             </div>
             }
