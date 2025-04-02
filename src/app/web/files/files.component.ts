@@ -230,7 +230,7 @@ export class FilesComponent implements OnInit {
       next: (resp) => {
         console.log(resp);
         this.onCloseShareModel();
-        this.apiErrorService.toastMessage('Success', 'File deleted successfully', 'Success');
+        this.apiErrorService.toastMessage('Success', 'File shared successfully', 'Success');
       },
       error: () => this.apiErrorService.toastMessage('Error', 'Failed to share the file', 'Error')
     });
